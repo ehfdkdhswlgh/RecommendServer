@@ -24,13 +24,15 @@ public class Main {
 //        RecipeDAO test = new RecipeDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         MemberDAO memberDAO = new MemberDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
-        GpsTransfer gpsTransfer = new GpsTransfer(36.119485, 128.3445734);
-        gpsTransfer.transfer();
-        System.out.println("결과 : " + gpsTransfer.getStringLat() + "," + gpsTransfer.getStringLon());
+//        GpsTransfer gpsTransfer = new GpsTransfer(36.119485, 128.3445734);
+//        gpsTransfer.transfer();
+//        System.out.println("결과 : " + gpsTransfer.getStringLat() + "," + gpsTransfer.getStringLon());
+//
+//        Weather weather = new Weather(gpsTransfer.getStringLat(), gpsTransfer.getStringLon());
+//        weather.weather();
+//        System.out.println(weather.getWeatherConditions() + ", " + weather.getTemperature());
 
-        Weather weather = new Weather(gpsTransfer.getStringLat(), gpsTransfer.getStringLon());
-        weather.weather();
-        System.out.println(weather.getWeatherConditions() + ", " + weather.getTemperature());
+        System.out.println(memberDAO.login("111","111"));
 
 //        List<RecipeDTO> arr;
 //        String s = "";

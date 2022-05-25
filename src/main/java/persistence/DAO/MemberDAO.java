@@ -67,10 +67,30 @@ public class MemberDAO {
     }
 
     public boolean login(String memberId, String memberPassword){
-
-        if((!idExist(memberId)) || (!passwordExist(memberPassword)))
-            return false;
-
-        return true;
+        List<MemberDTO> list = null;
+        MemberDTO memberDTO = new MemberDTO(memberId, memberPassword);
+        SqlSession session = sqlSessionFactory.openSession();
+        MemberMapper mapper = session.getMapper(MemberMapper.class);
+        try{
+            list = mapper.login(memberDTO);
+            session.commit();
+        } catch (Exception e){
+            e.printStackTrace();
+            session.rollback();
+        }
+        finally{
+            session.close();
+        }
+        return !list.isEmpty();
     }
+
+//    public boolean login(String memberId, String memberPassword){
+//
+//
+//
+//        if((!idExist(memberId)) || (!passwordExist(memberPassword)))
+//            return false;
+//
+//        return true;
+//    }
 }

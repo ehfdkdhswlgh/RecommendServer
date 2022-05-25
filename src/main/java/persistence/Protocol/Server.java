@@ -215,6 +215,70 @@ public class Server {
                             }
                             break;
 
+                        case CODE_RESET_RECOMMENDFOOD:
+                            switch (protocolType){
+                                case TYPE_REQUEST:
+                                    System.out.println("새로그침 정상수신");
+                                    Protocol proto = new Protocol(TYPE_RESPONSE, CODE_RESET_RECOMMENDFOOD);
+
+                                    int pos = 2;
+
+                                    byte[] sendBuf = proto.getPacket();
+
+                                    String foodName;
+                                    String foodURLName;
+                                    String youtubeLinkName;
+                                    int foodNameLength;
+                                    int foodURLNameLength;
+                                    int youtubeLinkLength;
+
+                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+
+                                    for(int i = 0; i < tmp.size(); i++){
+
+                                        foodName = tmp.get(i).getFoodName();
+                                        System.out.println(foodNameLength = foodName.getBytes().length);
+                                        foodURLName = tmp.get(i).getImgLink();
+                                        System.out.println(foodURLNameLength = foodURLName.getBytes().length);
+                                        youtubeLinkName = tmp.get(i).getYoutubeLink();
+                                        System.out.println(youtubeLinkLength = youtubeLinkName.getBytes().length);
+
+
+                                        byte[] temp5 = proto.intToByteArray(foodNameLength); // 이름 길이
+                                        System.arraycopy(temp5, 0, sendBuf, pos, 4);
+                                        pos += 4; // 4증가
+
+                                        byte[] temp6 = foodName.getBytes(); //이름 실제 데이터
+                                        System.arraycopy(temp6, 0, sendBuf, pos, temp6.length);
+                                        pos += temp6.length;
+
+                                        byte[] temp7 = proto.intToByteArray(foodURLNameLength); //URL 길이
+                                        System.arraycopy(temp7, 0, sendBuf, pos, 4);
+                                        pos += 4;
+
+                                        byte[] temp8 = foodURLName.getBytes(); //URL 실제 데이터
+                                        System.arraycopy(temp8, 0, sendBuf, pos, temp8.length);
+                                        pos += temp8.length;
+
+                                        byte[] temp9 = proto.intToByteArray(youtubeLinkLength); //youbeLink 길이
+                                        System.arraycopy(temp9, 0, sendBuf, pos, 4);
+                                        pos += 4;
+
+                                        byte[] temp10 = youtubeLinkName.getBytes(); //URL 실제 데이터
+                                        System.arraycopy(temp10, 0, sendBuf, pos, temp10.length);
+                                        pos += temp10.length;
+
+                                    }
+
+                                    bos.write(sendBuf);
+                                    bos.flush();
+
+
+                                    break;
+                            }
+                            break;
+
+
                         case CODE_LOGIN:
                             switch (protocolType) {
                                 case TYPE_REQUEST:

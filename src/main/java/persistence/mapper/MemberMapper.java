@@ -22,7 +22,7 @@ public interface MemberMapper {
     @ResultMap("resultSet")
     List<MemberDTO> selectById(String memberId);
 
-    final String selectByPassword = "SELECT * from member WHERE MemberPassword = #{MemberPassword};";
+    final String selectByPassword = "SELECT * from member WHERE memberPassword = #{memberPassword};";
     @Select(selectByPassword)
     @ResultMap("resultSet")
     List<MemberDTO> selectByPassword(String memberPassword);
@@ -31,5 +31,10 @@ public interface MemberMapper {
     @Insert(INSERT)
     @ResultMap("resultSet")
     public void insert(MemberDTO memberDTO);
+
+    final String login = "select * from member where memberID = #{memberID} AND memberPassword = #{memberPassword}";
+    @Select(login)
+    @ResultMap("resultSet")
+    List<MemberDTO> login(MemberDTO memberDTO);
 
 }
