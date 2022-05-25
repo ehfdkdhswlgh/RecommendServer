@@ -58,7 +58,7 @@ public class MemberDAO {
         } catch (Exception e){
             e.printStackTrace();
             session.rollback();
-            return false;
+//            return false;
         }
         finally{
             session.close();

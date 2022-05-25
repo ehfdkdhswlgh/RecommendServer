@@ -27,7 +27,7 @@ public interface MemberMapper {
     @ResultMap("resultSet")
     List<MemberDTO> selectByPassword(String memberPassword);
 
-    final String INSERT = "INSERT INTO member (memberId, memberPassword) VALUES (#{memberId}, #{memberPassword})";
+    final String INSERT = "INSERT INTO member (memberID, memberPassword) VALUES (#{memberID}, #{memberPassword})";
     @Insert(INSERT)
     @ResultMap("resultSet")
     public void insert(MemberDTO memberDTO);
