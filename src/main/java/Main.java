@@ -1,7 +1,11 @@
 //import persistence.MyBatisConnectionFactory;
 //import persistence.dao.*;
+import persistence.DAO.FoodStepDAO;
+import persistence.DAO.IngredientDAO;
 import persistence.DAO.MemberDAO;
 import persistence.DAO.RecipeDAO;
+import persistence.DTO.FoodStepDTO;
+import persistence.DTO.IngredientDTO;
 import persistence.DTO.MemberDTO;
 import persistence.DTO.RecipeDTO;
 import persistence.GpsTransfer;
@@ -19,6 +23,7 @@ public class Main {
 
     public static void main(String args[]){
 
+/*
         //DAO 생성
         RecipeDTO testDTO = new RecipeDTO();
 //        RecipeDAO test = new RecipeDAO(MyBatisConnectionFactory.getSqlSessionFactory());
@@ -33,6 +38,28 @@ public class Main {
 //        System.out.println(weather.getWeatherConditions() + ", " + weather.getTemperature());
 
         System.out.println(memberDAO.login("111","111"));
+*/
+/*
+        RecipeDAO test = new RecipeDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        List<RecipeDTO> tmp2 = test.getRandom();
+
+        System.out.println(tmp2.size());*/
+
+/*        FoodStepDAO foodStepDAO = new FoodStepDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        List<FoodStepDTO> tmp = foodStepDAO.selectFoodStep("김치");
+        String step;*/
+
+
+        IngredientDAO ingredientDAO = new IngredientDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        List<IngredientDTO> tmp = ingredientDAO.selectIngredient("김치볶음밥");
+        System.out.println("link1 : " + tmp.get(0).getIngredientLink());
+        System.out.println("link2 : " + tmp.get(1).getIngredientLink());
+        System.out.println("link1 : " + tmp.get(0).getIngredientName());
+        System.out.println("link2 : " + tmp.get(1).getIngredientName());
+   /*     for(int i = 0; i<tmp.size(); i++) {
+            step = tmp.get(i).getStep();
+            System.out.println(step);
+        }*/
 
 //        List<RecipeDTO> arr;
 //        String s = "";
