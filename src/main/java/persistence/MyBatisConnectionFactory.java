@@ -3,10 +3,7 @@ package persistence;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import persistence.mapper.FoodStepMapper;
-import persistence.mapper.IngredientMapper;
-import persistence.mapper.MemberMapper;
-import persistence.mapper.RecipeMapper;
+import persistence.mapper.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,7 +21,8 @@ public class MyBatisConnectionFactory {
                         MemberMapper.class,
                         RecipeMapper.class,
                         FoodStepMapper.class,
-                        IngredientMapper.class
+                        IngredientMapper.class,
+                        CommentsMapper.class,
                 };
                 for(Class mapper:mappers){
                     sqlSessionFactory.getConfiguration().addMapper(mapper);

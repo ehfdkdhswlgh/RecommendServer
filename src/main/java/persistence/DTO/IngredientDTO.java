@@ -12,4 +12,6 @@ public class IngredientDTO {
     private String ingredientLink;
     private String ingredientName;
 
+    private String ingredientAmount;
+
 }

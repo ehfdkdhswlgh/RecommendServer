@@ -6,15 +6,13 @@
 <mapper namespace="mapper.memberMapper">
     <resultMap id="result" type="persistence.DTO.RecipeDTO">
         <result property="MemberNumber" column="MemberNumber"/>
-        <result property="MemberID" column="MemberID"/>
+        <result property="memberID" column="memberID"/>
         <result property="MemberPassword" column="MemberPassword"/>
     </resultMap>
 
     <select id = "select" resultMap="result">
         SELECT * from member;
     </select>
-
-
 
 </mapper>
 

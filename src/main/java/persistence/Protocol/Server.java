@@ -1,7 +1,9 @@
 package persistence.Protocol;
 
-import persistence.DAO.MemberDAO;
-import persistence.DAO.RecipeDAO;
+import persistence.DAO.*;
+import persistence.DTO.CommentsDTO;
+import persistence.DTO.FoodStepDTO;
+import persistence.DTO.IngredientDTO;
 import persistence.DTO.RecipeDTO;
 import persistence.GpsTransfer;
 import persistence.MyBatisConnectionFactory;
@@ -67,6 +69,9 @@ public class Server {
 
             RecipeDAO recipeDAO = new RecipeDAO(MyBatisConnectionFactory.getSqlSessionFactory());
             MemberDAO memberDAO = new MemberDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+            FoodStepDAO foodStepDAO = new FoodStepDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+            IngredientDAO ingredientDAO = new IngredientDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+            CommentsDAO commentsDAO = new CommentsDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
             try {
                 OutputStream os = conn.getOutputStream();
@@ -147,7 +152,14 @@ public class Server {
                                     int weatherConditionsLength;
                                     int temperatureLength;
 
-                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+//                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+
+                                    List<RecipeDTO> tmp2 = recipeDAO.getRandom();
+                                    List<RecipeDTO> tmp = null;
+                                    tmp.add(tmp2.get(0));
+                                    tmp.add(tmp2.get(2));
+                                    tmp.add(tmp2.get(1));
+                                    tmp.add(tmp2.get(3));
 
                                     weatherConditions = weather.getWeatherConditions();
                                     System.out.println(weatherConditionsLength = weatherConditions.getBytes().length);
@@ -169,6 +181,8 @@ public class Server {
                                     byte[] temp4 = temperature.getBytes(); //기온 실제 데이터
                                     System.arraycopy(temp4, 0, sendBuf, pos, temp4.length);
                                     pos += temp4.length;
+
+
 
                                     for(int i = 0; i < tmp.size(); i++){
 
@@ -232,7 +246,12 @@ public class Server {
                                     int foodURLNameLength;
                                     int youtubeLinkLength;
 
-                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+                                    List<RecipeDTO> tmp2 = recipeDAO.getRandom();
+                                    List<RecipeDTO> tmp = null;
+                                    tmp.add(tmp2.get(0));
+                                    tmp.add(tmp2.get(2));
+                                    tmp.add(tmp2.get(1));
+                                    tmp.add(tmp2.get(3));
 
                                     for(int i = 0; i < tmp.size(); i++){
 
@@ -378,9 +397,113 @@ public class Server {
                                     break;
                             }
                             break;
+                        case CODE_DETAIL_FOOD_INFO:
+                            switch (protocolType) {
+                                case TYPE_REQUEST:
+                                    System.out.println("세부정보요청 정상수신");
+                                    Protocol proto = new Protocol(TYPE_RESPONSE, CODE_DETAIL_FOOD_INFO);
+
+                                    byte[] sendBuf = proto.getPacket();
+
+                                    int type = buf[0]; //타입
+                                    System.out.println(type);
+                                    int code = buf[1]; //코드
+                                    System.out.println(code);
+
+                                    String foodName = null;
+                                    int pos = 2;
+
+
+                                    byte[] tmp = Arrays.copyOfRange(buf, pos, pos + 4);
+                                    int foodNameLength = Protocol.byteArrayToInt(tmp);
+                                    pos +=4;
+
+                                    byte[] foodNameArr = Arrays.copyOfRange(buf, pos, pos + foodNameLength);
+                                    try {
+                                        foodName = new String(foodNameArr, "UTF-8");//추출 이름 String 변환해 저장
+                                    } catch (UnsupportedEncodingException e) {
+                                        e.printStackTrace();
+                                    }
+//                                    pos += foodNameLength;
+                                    pos = 2;
+
+                                    List<FoodStepDTO> foodStepList = foodStepDAO.selectFoodStep(foodName);
+                                    List<CommentsDTO> commentsList = commentsDAO.selectByFoodName(foodName);
+                                    List<IngredientDTO> ingredientList = ingredientDAO.selectIngredient(foodName);
+
+
+                                    byte[] temp1 = proto.intToByteArray(foodStepList.size()); // '요리순서 수'의 길이
+                                    System.arraycopy(temp1, 0, sendBuf, pos, 4);
+                                    pos += 4; // 4증가
+
+                                    byte[] temp2 = proto.intToByteArray(commentsList.size()); // '요리순서 수'의 길이
+                                    System.arraycopy(temp1, 0, sendBuf, pos, 4);
+                                    pos += 4; // 4증가
+
+                                    byte[] temp3 = proto.intToByteArray(ingredientList.size()); // '요리순서 수'의 길이
+                                    System.arraycopy(temp1, 0, sendBuf, pos, 4);
+                                    pos += 4; // 4증가
+
+                                    for(int i=0; i<foodStepList.size(); i++){
+                                        String foodStep = foodStepList.get(i).toString();
+                                        int foodStepLength;
+                                        System.out.println(foodStepLength = foodStep.getBytes().length);
+
+                                        byte[] temp5 = proto.intToByteArray(foodStepLength); // 이름 길이
+                                        System.arraycopy(temp5, 0, sendBuf, pos, 4);
+                                        pos += 4; // 4증가
+
+                                        byte[] temp6 = foodStep.getBytes(); //이름 실제 데이터
+                                        System.arraycopy(temp6, 0, sendBuf, pos, temp6.length);
+                                        pos += temp6.length;
+                                    }
+
+                                    for(int i=0; i<commentsList.size(); i++){
+                                        String comments = commentsList.get(i).toString();
+                                        int commentsLength;
+                                        System.out.println(commentsLength = comments.getBytes().length);
+
+                                        byte[] temp5 = proto.intToByteArray(commentsLength); // 이름 길이
+                                        System.arraycopy(temp5, 0, sendBuf, pos, 4);
+                                        pos += 4; // 4증가
+
+                                        byte[] temp6 = comments.getBytes(); //이름 실제 데이터
+                                        System.arraycopy(temp6, 0, sendBuf, pos, temp6.length);
+                                        pos += temp6.length;
+                                    }
+
+                                    for(int i=0; i<ingredientList.size(); i++){
+                                        String ingredient = ingredientList.get(i).toString();
+                                        int ingredientLength;
+                                        System.out.println(ingredientLength = ingredient.getBytes().length);
+                                        String ingredientLink = ingredientList.get(i).toString();
+                                        int ingredientLinkLength;
+                                        System.out.println(ingredientLinkLength = ingredientLink.getBytes().length);
+
+                                        byte[] temp5 = proto.intToByteArray(ingredientLength); // 이름 길이
+                                        System.arraycopy(temp5, 0, sendBuf, pos, 4);
+                                        pos += 4; // 4증가
+
+                                        byte[] temp6 = ingredient.getBytes(); //이름 실제 데이터
+                                        System.arraycopy(temp6, 0, sendBuf, pos, temp6.length);
+                                        pos += temp6.length;
+
+                                        byte[] temp7 = proto.intToByteArray(ingredientLinkLength); // 이름 길이
+                                        System.arraycopy(temp7, 0, sendBuf, pos, 4);
+                                        pos += 4; // 4증가
+
+                                        byte[] temp8 = ingredientLink.getBytes(); //이름 실제 데이터
+                                        System.arraycopy(temp8, 0, sendBuf, pos, temp8.length);
+                                        pos += temp8.length;
+                                    }
+
+
+                                    bos.write(proto.getPacket());
+                                    bos.flush();
+                                    break;
+                            }
+
                     }
-
-
 
                 }
                 conn.close();

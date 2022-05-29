@@ -13,5 +13,9 @@ public class FoodStepDTO {
     private BigInteger stepNumber;
     private String foodName;
 
+    public String toString(){
+        return stepNumber + "번 : " + step;
+    }
+
 
 }

@@ -84,13 +84,4 @@ public class MemberDAO {
         return !list.isEmpty();
     }
 
-//    public boolean login(String memberId, String memberPassword){
-//
-//
-//
-//        if((!idExist(memberId)) || (!passwordExist(memberPassword)))
-//            return false;
-//
-//        return true;
-//    }
 }
