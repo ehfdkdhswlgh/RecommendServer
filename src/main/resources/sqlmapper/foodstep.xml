@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.foodStepMapper">
+    <resultMap id="result" type="persistence.DTO.FoodStepDTO">
+        <result property="foodNum" column="foodName"/>
+        <result property="step" column="step"/>
+        <result property="stepNumber" column="stepNumber"/>
+    </resultMap>
+
+    <select id = "selectFoodStep" resultMap="result">
+        SELECT foodstep.Step,foodstep.StepNumber from foods join foodstep on foods.foodNum = foodstep.foodNum where foods.foodName = #{foodName};
+    </select>
+
+
+
+</mapper>
+
