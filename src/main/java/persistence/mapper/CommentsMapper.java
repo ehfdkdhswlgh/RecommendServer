@@ -30,5 +30,11 @@ public interface CommentsMapper {
     @ResultMap("resultSet")
     List<CommentsDTO> selectByFoodName(String foodName);
 
+    //list로 바꾸기
+    final String INSERT = "INSERT INTO Comments (memberNumber, foodNum, content) VALUES (#{memberNumber}, #{foodNum}, #{content})";
+    @Select(INSERT)
+    @ResultMap("resultSet")
+    void enrollComment(CommentsDTO commentsDTO);
+
 
 }

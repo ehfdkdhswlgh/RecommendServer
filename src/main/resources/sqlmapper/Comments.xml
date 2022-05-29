@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.memberMapper">
+    <resultMap id="result" type="persistence.DTO.CommentsDTO">
+        <result property="MemberNumber" column="MemberNumber"/>
+        <result property="memberID" column="memberID"/>
+        <result property="MemberPassword" column="MemberPassword"/>
+    </resultMap>
+
+    <select id = "select" resultMap="result">
+        SELECT * from Comments;
+    </select>
+
+</mapper>
+

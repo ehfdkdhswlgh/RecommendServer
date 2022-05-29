@@ -19,6 +19,12 @@ public class CommentsDTO {
 
     public CommentsDTO(){}
 
+    public CommentsDTO(int memberNumber, int foodNum, String content){
+        this.memberNumber = memberNumber;
+        this.foodNum = foodNum;
+        this.content = content;
+    }
+
     public CommentsDTO(int commentsNumber, int memberNumber, int foodNum, String content, int likeCount, int hateCount){
         this.commentsNumber = commentsNumber;
         this.memberNumber = memberNumber;

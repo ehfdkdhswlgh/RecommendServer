@@ -33,12 +33,13 @@ public class CommentsDAO {
         return list;
     }
 
-        private boolean enrollComments(String memberId) {
-            List<MemberDTO> list = null;
+    // 타입 void로?
+    public boolean enrollComment(int memberNumber, int foodNum, String comments) {
+            CommentsDTO commentsDTO = new CommentsDTO(memberNumber, foodNum, comments);
             SqlSession session = sqlSessionFactory.openSession();
-            MemberMapper mapper = session.getMapper(MemberMapper.class);
+            CommentsMapper mapper = session.getMapper(CommentsMapper.class);
             try {
-                list = mapper.selectById(memberId);
+                mapper.enrollComment(commentsDTO);
                 session.commit();
             }catch (Exception e){
                 e.printStackTrace();
@@ -46,7 +47,7 @@ public class CommentsDAO {
             } finally {
                 session.close();
             }
-            return !list.isEmpty();
+            return true;
         }
 
 }
