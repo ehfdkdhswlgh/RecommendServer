@@ -84,4 +84,19 @@ public class MemberDAO {
         return !list.isEmpty();
     }
 
+    public int selectNumber(String memberId) {
+        MemberDTO memberDTO = null;
+        SqlSession session = sqlSessionFactory.openSession();
+        MemberMapper mapper = session.getMapper(MemberMapper.class);
+        try {
+            memberDTO = mapper.selectNumber(memberId);
+            session.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            session.rollback();
+        } finally {
+            session.close();
+        }
+        return memberDTO.getMemberNumber();
+    }
 }

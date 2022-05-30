@@ -22,6 +22,11 @@ public interface MemberMapper {
     @ResultMap("resultSet")
     List<MemberDTO> selectById(String memberId);
 
+    final String selectNumber = "SELECT memberNumber from member WHERE memberID = #{memberID};";
+    @Select(selectNumber)
+    @ResultMap("resultSet")
+    MemberDTO  selectNumber(String memberID);
+
     final String selectByPassword = "SELECT * from member WHERE memberPassword = #{memberPassword};";
     @Select(selectByPassword)
     @ResultMap("resultSet")

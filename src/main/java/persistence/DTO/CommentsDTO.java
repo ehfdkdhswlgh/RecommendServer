@@ -11,8 +11,6 @@ public class CommentsDTO {
     private int memberNumber;
     private int foodNum;
     private String content;
-    private int likeCount;
-    private int hateCount;
 
     private String memberID;
     private String foodName;
@@ -30,8 +28,6 @@ public class CommentsDTO {
         this.memberNumber = memberNumber;
         this.foodNum = foodNum;
         this.content = content;
-        this.likeCount = likeCount;
-        this.hateCount = hateCount;
     }
 
     public String toString(){

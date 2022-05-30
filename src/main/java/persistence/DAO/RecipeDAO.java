@@ -2,7 +2,9 @@ package persistence.DAO;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import persistence.DTO.MemberDTO;
 import persistence.DTO.RecipeDTO;
+import persistence.mapper.MemberMapper;
 import persistence.mapper.RecipeMapper;
 
 import java.util.List;
@@ -20,6 +22,22 @@ public class RecipeDAO {
         RecipeMapper mapper = session.getMapper(RecipeMapper.class);
         List<RecipeDTO> rnd = mapper.getRandom();
         return rnd;
+    }
+
+    public int selectNumber(String foodName) {
+        RecipeDTO recipeDTO = null;
+        SqlSession session = sqlSessionFactory.openSession();
+        RecipeMapper mapper = session.getMapper(RecipeMapper.class);
+        try {
+            recipeDTO = mapper.selectNumber(foodName);
+            session.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            session.rollback();
+        } finally {
+            session.close();
+        }
+        return recipeDTO.getFoodNum();
     }
 
 //    final DataSource ds = PooledDataSource.getDataSource();

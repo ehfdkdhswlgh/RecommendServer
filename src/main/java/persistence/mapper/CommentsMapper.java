@@ -18,14 +18,12 @@ public interface CommentsMapper {
             @Result(property = "memberNumber", column = "memberNumber"),
             @Result(property = "foodNum", column = "foodNum"),
             @Result(property = "content", column = "content"),
-            @Result(property = "likeCount", column = "likeCount"),
-            @Result(property = "hateCount", column = "hateCount"),
 
             @Result(property = "memberID", column = "memberID"),
     })
     List<CommentsDTO> getAll();
 
-    final String selectByFoodName = "SELECT memberID, content, likeCount, hateCount  from Comments join Foods on Foods.foodNum = Comments.foodNum join member on comments.MemberNumber = member.MemberNumber where foodName = #{foodName};";
+    final String selectByFoodName = "SELECT memberID, content from Comments join Foods on Foods.foodNum = Comments.foodNum join member on comments.MemberNumber = member.MemberNumber where foodName = #{foodName};";
     @Select(selectByFoodName)
     @ResultMap("resultSet")
     List<CommentsDTO> selectByFoodName(String foodName);

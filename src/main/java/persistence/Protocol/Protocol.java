@@ -67,6 +67,7 @@ public class Protocol {
                         break;
                 }
                 break;
+
             case CODE_RESET_RECOMMENDFOOD:// code 가 새로운 추천인경우
 
                 switch (protocolType){

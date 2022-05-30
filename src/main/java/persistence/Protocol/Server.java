@@ -12,6 +12,7 @@ import persistence.Weather;
 import java.net.*;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static persistence.Protocol.Protocol.*;
@@ -54,6 +55,9 @@ public class Server {
 
 
     static class handler extends Thread {
+
+        private String loginId;
+        private String foodName;
 
         private Socket conn;
 
@@ -154,12 +158,8 @@ public class Server {
 
 //                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
 
-                                    List<RecipeDTO> tmp2 = recipeDAO.getRandom();
-                                    List<RecipeDTO> tmp = null;
-                                    tmp.add(tmp2.get(0));
-                                    tmp.add(tmp2.get(2));
-                                    tmp.add(tmp2.get(1));
-                                    tmp.add(tmp2.get(3));
+                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+                                    Collections.swap(tmp, 1, 2);
 
                                     weatherConditions = weather.getWeatherConditions();
                                     System.out.println(weatherConditionsLength = weatherConditions.getBytes().length);
@@ -246,12 +246,8 @@ public class Server {
                                     int foodURLNameLength;
                                     int youtubeLinkLength;
 
-                                    List<RecipeDTO> tmp2 = recipeDAO.getRandom();
-                                    List<RecipeDTO> tmp = null;
-                                    tmp.add(tmp2.get(0));
-                                    tmp.add(tmp2.get(2));
-                                    tmp.add(tmp2.get(1));
-                                    tmp.add(tmp2.get(3));
+                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+                                    Collections.swap(tmp, 1, 2);
 
                                     for(int i = 0; i < tmp.size(); i++){
 
@@ -309,7 +305,8 @@ public class Server {
                                     int code = buf[1]; //코드
                                     System.out.println(code);
 
-                                    String loginId = null, loginPassword = null;
+                                    loginId = null;
+                                    String loginPassword = null;
                                     int pos = 2;
 
 
@@ -410,7 +407,7 @@ public class Server {
                                     int code = buf[1]; //코드
                                     System.out.println(code);
 
-                                    String foodName = null;
+                                    foodName = null;
                                     int pos = 2;
 
 
@@ -502,7 +499,46 @@ public class Server {
                                     bos.flush();
                                     break;
                             }
+                            break;
+                        case CODE_COMMENT_LEAVE:
+                            switch (protocolType) {
+                                case TYPE_REQUEST:
+                                    System.out.println("댓글등록 정상수신");
+                                    Protocol proto = null;
 
+                                    int type = buf[0]; //타입
+                                    System.out.println(type);
+                                    int code = buf[1]; //코드
+                                    System.out.println(code);
+
+                                    String comment = null;
+                                    int pos = 2;
+
+
+                                    byte[] tmp = Arrays.copyOfRange(buf, pos, pos + 4);
+                                    int commentLength = Protocol.byteArrayToInt(tmp);
+                                    pos +=4;
+
+                                    byte[] signUpIdArr = Arrays.copyOfRange(buf, pos, pos + commentLength);
+                                    try {
+                                        comment = new String(signUpIdArr, "UTF-8");//추출 이름 String 변환해 저장
+                                    } catch (UnsupportedEncodingException e) {
+                                        e.printStackTrace();
+                                    }
+                                    pos += commentLength;
+
+                                    int memberNumber = memberDAO.selectNumber(loginId);
+                                    int foodNum = recipeDAO.selectNumber(foodName);
+
+                                    commentsDAO.enrollComment(memberNumber, foodNum, comment);
+
+                                    proto = new Protocol(TYPE_RESPONSE, CODE_COMMENT_LEAVE);
+
+                                    bos.write(proto.getPacket());
+                                    bos.flush();
+                                    break;
+                            }
+                                break;
                     }
 
                 }

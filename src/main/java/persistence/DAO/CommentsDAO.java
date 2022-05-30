@@ -34,7 +34,7 @@ public class CommentsDAO {
     }
 
     // 타입 void로?
-    public boolean enrollComment(int memberNumber, int foodNum, String comments) {
+    public void enrollComment(int memberNumber, int foodNum, String comments) {
             CommentsDTO commentsDTO = new CommentsDTO(memberNumber, foodNum, comments);
             SqlSession session = sqlSessionFactory.openSession();
             CommentsMapper mapper = session.getMapper(CommentsMapper.class);
@@ -47,7 +47,6 @@ public class CommentsDAO {
             } finally {
                 session.close();
             }
-            return true;
         }
 
 }

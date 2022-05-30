@@ -12,6 +12,7 @@ import persistence.Weather;
 import persistence.mapper.CommentsMapper;
 //import service.*;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,8 +25,8 @@ public class Main {
 
         //DAO 생성
         RecipeDTO testDTO = new RecipeDTO();
-//        RecipeDAO test = new RecipeDAO(MyBatisConnectionFactory.getSqlSessionFactory());
-//        MemberDAO memberDAO = new MemberDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        RecipeDAO recipeDAO = new RecipeDAO(MyBatisConnectionFactory.getSqlSessionFactory());
+        MemberDAO memberDAO = new MemberDAO(MyBatisConnectionFactory.getSqlSessionFactory());
         CommentsDAO commentsDAO = new CommentsDAO(MyBatisConnectionFactory.getSqlSessionFactory());
 
 //        GpsTransfer gpsTransfer = new GpsTransfer(36.119485, 128.3445734);
@@ -38,16 +39,35 @@ public class Main {
 
 //        System.out.println(memberDAO.login("111","111"));
 
-        List<CommentsDTO> list = commentsDAO.selectByFoodName("열무김치 맛있게 담그는법(전라도김치)");
+//        List<CommentsDTO> list = commentsDAO.selectByFoodName("열무김치 맛있게 담그는법(전라도김치)");
+//
+//        for(int i=0; i<list.size(); i++){
+//            System.out.print(list.get(i).getMemberID() + " ");
+//            System.out.print(list.get(i).getContent() + " ");
+//
+//            System.out.println();
+//        }
 
-        for(int i=0; i<list.size(); i++){
-            System.out.print(list.get(i).getMemberID() + " ");
-            System.out.print(list.get(i).getContent() + " ");
-            System.out.print(list.get(i).getLikeCount() + " ");
-            System.out.print(list.get(i).getHateCount() + " ");
+        System.out.println(memberDAO.selectNumber("111"));
+        System.out.println(recipeDAO.selectNumber("열무김치 맛있게 담그는법(전라도김치)"));
 
-            System.out.println();
-        }
+//        commentsDAO.enrollComment(6, 1, "새로운 댓글 61");
+
+
+//        List<RecipeDTO> tmp2 = recipeDAO.getRandom();
+////        RecipeDTO tmp3 = tmp2.get(1);
+//        System.out.println(tmp2.get(1));
+//        System.out.println(tmp2.get(2));
+//
+//        Collections.swap(tmp2, 1, 2);
+//
+//        System.out.println(tmp2.get(1));
+//        System.out.println(tmp2.get(2));
+
+//        tmp3.add(tmp2.get(0));
+//        tmp3.add(tmp2.get(2));
+//        tmp3.add(tmp2.get(1));
+//        tmp3.add(tmp2.get(3));
 
 //        List<RecipeDTO> arr;
 //        String s = "";
