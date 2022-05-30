@@ -39,7 +39,6 @@ public class Server {
                 conn = sSocket.accept();
                 System.out.println("클라이언트 " + conn.getInetAddress().getHostName() + " 가 접속하였습니다.");
                 new handler(conn).start();
-
             }
         } catch (IOException e) {
             System.err.println("IOException");
@@ -230,7 +229,7 @@ public class Server {
                             break;
 
                         case CODE_RESET_RECOMMENDFOOD:
-                            switch (protocolType){
+                            switch (protocolType) {
                                 case TYPE_REQUEST:
                                     System.out.println("새로그침 정상수신");
                                     Protocol proto = new Protocol(TYPE_RESPONSE, CODE_RESET_RECOMMENDFOOD);
@@ -418,6 +417,7 @@ public class Server {
                                     byte[] foodNameArr = Arrays.copyOfRange(buf, pos, pos + foodNameLength);
                                     try {
                                         foodName = new String(foodNameArr, "UTF-8");//추출 이름 String 변환해 저장
+                                        System.out.println(foodName);
                                     } catch (UnsupportedEncodingException e) {
                                         e.printStackTrace();
                                     }
@@ -433,12 +433,12 @@ public class Server {
                                     System.arraycopy(temp1, 0, sendBuf, pos, 4);
                                     pos += 4; // 4증가
 
-                                    byte[] temp2 = proto.intToByteArray(commentsList.size()); // '요리순서 수'의 길이
-                                    System.arraycopy(temp1, 0, sendBuf, pos, 4);
+                                    byte[] temp2 = proto.intToByteArray(commentsList.size()); // '댓글 수'의 길이
+                                    System.arraycopy(temp2, 0, sendBuf, pos, 4);
                                     pos += 4; // 4증가
 
-                                    byte[] temp3 = proto.intToByteArray(ingredientList.size()); // '요리순서 수'의 길이
-                                    System.arraycopy(temp1, 0, sendBuf, pos, 4);
+                                    byte[] temp3 = proto.intToByteArray(ingredientList.size()); // '재료 수'의 길이
+                                    System.arraycopy(temp3, 0, sendBuf, pos, 4);
                                     pos += 4; // 4증가
 
                                     for(int i=0; i<foodStepList.size(); i++){
@@ -453,6 +453,7 @@ public class Server {
                                         byte[] temp6 = foodStep.getBytes(); //이름 실제 데이터
                                         System.arraycopy(temp6, 0, sendBuf, pos, temp6.length);
                                         pos += temp6.length;
+                                        System.out.println("foodStep : " + foodStep);
                                     }
 
                                     for(int i=0; i<commentsList.size(); i++){
@@ -467,13 +468,14 @@ public class Server {
                                         byte[] temp6 = comments.getBytes(); //이름 실제 데이터
                                         System.arraycopy(temp6, 0, sendBuf, pos, temp6.length);
                                         pos += temp6.length;
+                                        System.out.println("comments : " + comments);
                                     }
 
                                     for(int i=0; i<ingredientList.size(); i++){
-                                        String ingredient = ingredientList.get(i).toString();
+                                        String ingredient = ingredientList.get(i).getIngredientName();
                                         int ingredientLength;
                                         System.out.println(ingredientLength = ingredient.getBytes().length);
-                                        String ingredientLink = ingredientList.get(i).toString();
+                                        String ingredientLink = ingredientList.get(i).getIngredientLink();
                                         int ingredientLinkLength;
                                         System.out.println(ingredientLinkLength = ingredientLink.getBytes().length);
 
@@ -492,6 +494,8 @@ public class Server {
                                         byte[] temp8 = ingredientLink.getBytes(); //이름 실제 데이터
                                         System.arraycopy(temp8, 0, sendBuf, pos, temp8.length);
                                         pos += temp8.length;
+                                        System.out.println("ingredient : " + ingredient);
+                                        System.out.println("ingredientLink : " + ingredientLink);
                                     }
 
 
