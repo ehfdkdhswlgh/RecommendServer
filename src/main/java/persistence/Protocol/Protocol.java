@@ -73,8 +73,9 @@ public class Protocol {
             case CODE_RESET_RECOMMENDFOOD:// code 가 새로운 추천인경우
 
                 switch (protocolType){
+                    //LEN_PROTOCOL_BODY붙일시 정상 작동, client에도 똑같이 해주기
                     case TYPE_REQUEST:
-                        packet=new byte[LEN_PROTOCOL_TYPE + LEN_PROTOCOL_CODE];
+                        packet=new byte[LEN_PROTOCOL_TYPE+LEN_PROTOCOL_CODE+LEN_PROTOCOL_BODY];
                         break;
 
                     case TYPE_RESPONSE:

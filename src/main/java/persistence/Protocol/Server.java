@@ -28,7 +28,7 @@ public class Server {
 
 
         try {
-
+//            임시로 3010 포트 사용중
             sSocket = new ServerSocket(3000, 10);
             //* nullexception 발생시  - > 데이터베이스 접속하기 + 포트번호 수정하기
             System.out.println("클라이언트 접속 대기중...");
