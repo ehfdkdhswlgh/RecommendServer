@@ -442,7 +442,7 @@ public class Server {
                                     pos += 4; // 4증가
 
                                     for(int i=0; i<foodStepList.size(); i++){
-                                        String foodStep = foodStepList.get(i).toString();
+                                        String foodStep = i+1 + "" + foodStepList.get(i).toString();
                                         int foodStepLength;
                                         System.out.println(foodStepLength = foodStep.getBytes().length);
 

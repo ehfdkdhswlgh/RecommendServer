@@ -14,7 +14,7 @@ public class FoodStepDTO {
     private String foodName;
 
     public String toString(){
-        return stepNumber + "번 : " + step;
+        return " 번 : " + step;
     }
 
 

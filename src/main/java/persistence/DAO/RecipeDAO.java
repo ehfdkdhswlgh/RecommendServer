@@ -7,6 +7,7 @@ import persistence.DTO.RecipeDTO;
 import persistence.mapper.MemberMapper;
 import persistence.mapper.RecipeMapper;
 
+import java.util.Collections;
 import java.util.List;
 
 public class RecipeDAO {
@@ -21,6 +22,36 @@ public class RecipeDAO {
         SqlSession session = sqlSessionFactory.openSession();
         RecipeMapper mapper = session.getMapper(RecipeMapper.class);
         List<RecipeDTO> rnd = mapper.getRandom();
+        for(int i=0; i < rnd.size(); i++){
+            if(rnd.get(i).getYoutubeLink() == null){
+                rnd.get(i).setYoutubeLink("https://www.youtube.com/");
+            }
+        }
+        return rnd;
+    }
+
+    public List<RecipeDTO> getRandom2(int weatherNum, int seasonNum){
+        SqlSession session = sqlSessionFactory.openSession();
+        RecipeMapper mapper = session.getMapper(RecipeMapper.class);
+        List<RecipeDTO> rnd1 = mapper.getRandomByWeatherNum(weatherNum);
+        List<RecipeDTO> rnd2 = mapper.getRandomBySeasonNum(seasonNum);
+        List<RecipeDTO> rnd = null;
+
+        // 안되면 이걸로 시도
+//        rnd.addAll(rnd1);
+//        rnd.addAll(rnd2);
+//        Collections.swap(rnd, 1, 2);
+
+        rnd.add(rnd1.get(0));
+        rnd.add(rnd2.get(0));
+        rnd.add(rnd1.get(1));
+        rnd.add(rnd2.get(1));
+
+        for(int i=0; i < rnd.size(); i++){
+            if(rnd.get(i).getYoutubeLink() == null){
+                rnd.get(i).setYoutubeLink("https://www.youtube.com/");
+            }
+        }
         return rnd;
     }
 
