@@ -116,7 +116,7 @@ public class Weather {
             String baseTime = time;
             String pageNo = "1";
             String numOfRows = "1000";
-            String serviceKey = "HwjV3EHwJBSjB6WMtBRDma7IH0YGlTfdwgAkmPjaG8D1OwQigQzMz%2Bqr5sJLP8mBfaoUGAeGYt6IvOUHT%2F%2FQmw%3D%3D";
+            String serviceKey = "xH2V6uA%2Bns89rijEsbFvVBxuwuZUug%2FGbeQAaSMgfF3tjzbhfOaIBgXnR4H9ETwEF%2BClQbsQODdMSroYgaGKpw%3D%3D";
             String urlStr =
                     "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?" + "serviceKey=" + serviceKey + "&pageNo=" + pageNo + "&numOfRows=" + numOfRows + "&dataType=JSON" + "&base_date=" + baseDate + "&base_time=" + baseTime + "&nx=" + nx + "&ny=" + ny;
             URL url = new URL(urlStr);

@@ -30,6 +30,7 @@ public class Server {
         try {
 //            임시로 3010 포트 사용중
             sSocket = new ServerSocket(3000, 10);
+            sSocket.setReuseAddress(true);
             //* nullexception 발생시  - > 데이터베이스 접속하기 + 포트번호 수정하기
             System.out.println("클라이언트 접속 대기중...");
 
@@ -141,10 +142,23 @@ public class Server {
                                     GpsTransfer gpsTransfer = new GpsTransfer(Double.parseDouble(latitude), Double.parseDouble(longitude));
                                     gpsTransfer.transfer(); // 격자좌표계로 변환
                                     Weather weather = new Weather(gpsTransfer.getStringLat(), gpsTransfer.getStringLon());
-                                    weather.weather();
+//                                    // api
+//                                    weather.weather();
+//
+//                                    // api
+//                                    weatherNum = weather.getWeatherNum();
+//                                    seasonNum = weather.getSeasonNum();
 
-                                    weatherNum = weather.getWeatherNum();
-                                    seasonNum = weather.getSeasonNum();
+                                    //깡
+                                    weather.setWeatherConditions("비");
+                                    weather.setTemperature("24");
+                                    //깡
+                                    weatherNum = "1";
+                                    seasonNum = "1";
+
+
+
+
                                     
                                     byte[] sendBuf = proto.getPacket();//실제 최종 보낼 패킷
 
