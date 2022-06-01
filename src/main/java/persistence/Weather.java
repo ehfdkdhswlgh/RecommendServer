@@ -26,6 +26,35 @@ public class Weather {
     private String weatherConditions;
     private String temperature;
 
+    private int intTemp;
+    private String seasonNum;
+    private String weaherNum;
+//    기준 : 4 - 비옴, 26 > 더움(2), 26 < 맑음(1) < 15, 쌀쌀함(3) < 15
+//            3~5월이 봄(1), 6~8월이 여름(2), 9~11월이 가을(3), 12~2월이 겨울(4)
+
+    public String getWeatherNum(){
+        intTemp = Integer.parseInt(temperature);
+
+        if(weaherNum != null && weaherNum.equals("4")){
+            return weaherNum;
+        }
+        else {
+            if (intTemp >= 26) {
+                weaherNum = "2";
+            } else if (15 <= intTemp && intTemp < 26) {
+                weaherNum = "1";
+            } else if (intTemp < 15) {
+                weaherNum = "3";
+            }
+        }
+
+        return weaherNum;
+    }
+
+    public String getSeasonNum(){
+            return seasonNum;
+    }
+
     public Weather(String nx_data, String ny_data) {
         this.nx_data = nx_data;
         this.ny_data = ny_data;
@@ -36,9 +65,28 @@ public class Weather {
         Date d = new Date();
         SimpleDateFormat f1 = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat f2 = new SimpleDateFormat("HH");
+        SimpleDateFormat f3 = new SimpleDateFormat("MM");
+        String month = f3.format(d);
         String date = f1.format(d);
         String time = Integer.parseInt(f2.format(d))-2+"00";
         String now = Integer.parseInt(f2.format(d)) + "00";
+
+        switch (month){
+            case "03", "04", "05" :
+                seasonNum = "1";
+                break;
+            case "06", "07", "08" :
+                seasonNum = "2";
+                break;
+            case "09", "10", "11" :
+                seasonNum = "3";
+                break;
+            case "12", "01", "02" :
+                seasonNum = "4";
+                break;
+        }
+
+
 
         if(Integer.parseInt(now) < 0100) {
 
@@ -123,7 +171,7 @@ public class Weather {
                     if(category.equals("PTY")) {
                         if (!fcstValue.equals("0")) {
                             this.weatherConditions = "비";
-
+                            weaherNum = "4";
                         }
                     }
                     else if(category.equals("SKY")) {

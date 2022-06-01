@@ -32,12 +32,12 @@ public interface RecipeMapper {
     final String getRandomByWeatherNum = "SELECT foodName, imgLink, youtubeLink from foods where weatherNum = #{weatherNum} order by rand() limit 2;";
     @Select(getRandomByWeatherNum)
     @ResultMap("resultSet")
-    List<RecipeDTO> getRandomByWeatherNum(int weatherNum);
+    List<RecipeDTO> getRandomByWeatherNum(String weatherNum);
 
     final String getRandomBySeasonNum = "SELECT foodName, imgLink, youtubeLink from foods where seasonNum = #{seasonNum} order by rand() limit 2;";
     @Select(getRandomBySeasonNum)
     @ResultMap("resultSet")
-    List<RecipeDTO> getRandomBySeasonNum(int seasonNum);
+    List<RecipeDTO> getRandomBySeasonNum(String seasonNum);
 
 
 //    final String FINDID = "SELECT * FROM 사용자 WHERE ID = #{ID}";

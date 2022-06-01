@@ -58,6 +58,9 @@ public class Server {
         private String loginId;
         private String foodName;
 
+        private String weatherNum;
+        private String seasonNum;
+
         private Socket conn;
 
 
@@ -139,6 +142,9 @@ public class Server {
                                     gpsTransfer.transfer(); // 격자좌표계로 변환
                                     Weather weather = new Weather(gpsTransfer.getStringLat(), gpsTransfer.getStringLon());
                                     weather.weather();
+
+                                    weatherNum = weather.getWeatherNum();
+                                    seasonNum = weather.getSeasonNum();
                                     
                                     byte[] sendBuf = proto.getPacket();//실제 최종 보낼 패킷
 
@@ -157,7 +163,7 @@ public class Server {
 
 //                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
 
-                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+                                    List<RecipeDTO> tmp = recipeDAO.getRandom(weatherNum, seasonNum);
                                     Collections.swap(tmp, 1, 2);
 
                                     weatherConditions = weather.getWeatherConditions();
@@ -245,7 +251,7 @@ public class Server {
                                     int foodURLNameLength;
                                     int youtubeLinkLength;
 
-                                    List<RecipeDTO> tmp = recipeDAO.getRandom();
+                                    List<RecipeDTO> tmp = recipeDAO.getRandom(weatherNum, seasonNum);
                                     Collections.swap(tmp, 1, 2);
 
                                     for(int i = 0; i < tmp.size(); i++){
@@ -536,10 +542,10 @@ public class Server {
 
                                     commentsDAO.enrollComment(memberNumber, foodNum, comment);
 
-                                    proto = new Protocol(TYPE_RESPONSE, CODE_COMMENT_LEAVE);
-
-                                    bos.write(proto.getPacket());
-                                    bos.flush();
+//                                    proto = new Protocol(TYPE_RESPONSE, CODE_COMMENT_LEAVE);
+//
+//                                    bos.write(proto.getPacket());
+//                                    bos.flush();
                                     break;
                             }
                                 break;
